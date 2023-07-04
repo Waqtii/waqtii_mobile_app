@@ -41,11 +41,11 @@ class RegisterCubit extends Cubit<RegisterStates> {
     emit(RegisterUserLoadingState());
 
     ApiService.postData(url: 'signup/', data: {
-      'fullName': fullName,
+      'name': fullName,
       'email': email,
       'password': password,
-      'userName': userName,
-      'phoneNumber': phoneNumber,
+      'username': userName,
+      'mobile': phoneNumber,
       'gender': gender,
     }).then((value) {
       userModel = RegisterUserModel.fromJson(value?.data);

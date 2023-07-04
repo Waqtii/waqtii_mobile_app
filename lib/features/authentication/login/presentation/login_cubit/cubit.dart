@@ -34,9 +34,7 @@ class LoginCubit extends Cubit<LoginStates> {
       'email': email,
       'password': password,
     }).then((value) {
-      // var jsonMap = json.decode(value.data);
-      // print(jsonMap);
-      // print(jsonMap.runtimeType);
+      print(value?.data.runtimeType);
       loginModel = LoginModel.fromJson(value?.data);
 
       emit(LoginSuccessState(loginModel!));

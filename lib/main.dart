@@ -25,7 +25,7 @@ class WaqtiiApp extends StatelessWidget {
         BlocProvider(create: (context) => RegisterCubit()),
       ],
       child: MaterialApp(
-        home: ForgetPassSreen(),
+        home: RegisterUserScreen(),
       ),
     );
   }
