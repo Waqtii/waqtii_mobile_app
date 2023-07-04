@@ -35,7 +35,7 @@ class RegisterUserScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage(
                       'assets/images/backgroundImage.png',
@@ -48,16 +48,21 @@ class RegisterUserScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.2,
+                    ConditionalBuilder(
+                      condition: MediaQuery.of(context).size.height > 700,
+                      builder: (context) => SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.2),
+                      fallback: null,
                     ),
-                    Text('Create User Account',
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.w900)),
-                    SizedBox(
-                      height: 30,
+                    const FittedBox(
+                      child: Text('Create User Account',
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.w900)),
                     ),
-                    DefaultForm(
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                    defaultForm(
                       controller: namecontroller,
                       type: TextInputType.name,
                       label: 'Full Name',
@@ -70,9 +75,9 @@ class RegisterUserScreen extends StatelessWidget {
                       }),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: MediaQuery.of(context).size.height * 0.026,
                     ),
-                    DefaultForm(
+                    defaultForm(
                       controller: emailcontroller,
                       type: TextInputType.emailAddress,
                       label: 'Email',
@@ -85,15 +90,14 @@ class RegisterUserScreen extends StatelessWidget {
                       }),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: MediaQuery.of(context).size.height * 0.026,
                     ),
-                    DefaultForm(
+                    defaultForm(
                       suffix: RegisterCubit.get(context).suffixIcon,
                       suffixPressed: () {
                         RegisterCubit.get(context).changePassVis();
                       },
                       isPassword: RegisterCubit.get(context).isPass,
-                      submit: (value) {},
                       controller: passcontroller,
                       type: TextInputType.visiblePassword,
                       label: 'Password',
@@ -106,9 +110,9 @@ class RegisterUserScreen extends StatelessWidget {
                       }),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: MediaQuery.of(context).size.height * 0.026,
                     ),
-                    DefaultForm(
+                    defaultForm(
                       controller: usernamecontroller,
                       type: TextInputType.name,
                       label: 'User Name',
@@ -121,9 +125,9 @@ class RegisterUserScreen extends StatelessWidget {
                       }),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: MediaQuery.of(context).size.height * 0.026,
                     ),
-                    DefaultForm(
+                    defaultForm(
                       controller: phonecontroller,
                       type: TextInputType.phone,
                       label: 'Phone Number',
@@ -136,17 +140,17 @@ class RegisterUserScreen extends StatelessWidget {
                       }),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: MediaQuery.of(context).size.height * 0.026,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         DropdownButton(
-                          hint: Text('Choose Gender'),
+                          hint: const FittedBox(child: Text('Choose Gender')),
                           items: ["male", "female"]
                               .map((e) => DropdownMenuItem(
-                                    child: Text("$e"),
                                     value: e,
+                                    child: Text(e),
                                   ))
                               .toList(),
                           onChanged: (val) {
@@ -156,10 +160,10 @@ class RegisterUserScreen extends StatelessWidget {
                         ),
                         ConditionalBuilder(
                           condition: state is! RegisterUserLoadingState,
-                          builder: (BuildContext context) => DefaultButton(
-                            color: Color(0xfffab94f),
+                          builder: (BuildContext context) => defaultButton(
+                            color: const Color(0xfffab94f),
                             text: 'Sign Up',
-                            width: 150,
+                            width: MediaQuery.of(context).size.width * 0.4,
                             onPressed: () {
                               if (formkey.currentState!.validate()) {
                                 RegisterCubit.get(context).userRegister(
@@ -175,17 +179,15 @@ class RegisterUserScreen extends StatelessWidget {
                             },
                           ),
                           fallback: (BuildContext context) =>
-                              Center(child: CircularProgressIndicator()),
+                              const Center(child: CircularProgressIndicator()),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.09,
-                    ),
+                    Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Have an Account?"),
+                        const Text("Have an Account?"),
                         TextButton(
                             onPressed: () {
                               Navigator.pushAndRemoveUntil(
@@ -196,7 +198,7 @@ class RegisterUserScreen extends StatelessWidget {
                                 (route) => false,
                               );
                             },
-                            child: Text(
+                            child: const Text(
                               'Sign In',
                               style: TextStyle(
                                   color: Color(0xfffab94f),

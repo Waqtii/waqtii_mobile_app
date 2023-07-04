@@ -21,7 +21,7 @@ class ForgetPassSreen extends StatelessWidget {
       child: BlocConsumer<ForgetPasswordCubit, ForgetPasswordStates>(
         listener: (BuildContext context, state) {
           if (state is ForgetPasswordSuccessState) {
-            Toastt(
+            toastt(
               message: state.forgetPasswordModel.status,
               state: ToastStates.SUCCESS,
             );
@@ -32,7 +32,7 @@ class ForgetPassSreen extends StatelessWidget {
             automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
             elevation: 0,
-            title: Text(
+            title: const Text(
               'Forget Password',
               style: TextStyle(color: Colors.black),
             ),
@@ -46,7 +46,7 @@ class ForgetPassSreen extends StatelessWidget {
                       ),
                       (route) => false);
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_back_outlined,
                   color: Colors.black,
                 )),
@@ -61,7 +61,7 @@ class ForgetPassSreen extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.05,
                   ),
-                  Text(
+                  const Text(
                     'To reset your password, please enter your email address. You need to check your Email',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
@@ -69,7 +69,7 @@ class ForgetPassSreen extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.1,
                   ),
-                  DefaultForm(
+                  defaultForm(
                     controller: emailcontroller,
                     type: TextInputType.emailAddress,
                     label: 'Email',
@@ -81,15 +81,15 @@ class ForgetPassSreen extends StatelessWidget {
                       return null;
                     }),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Align(
                     alignment: AlignmentDirectional.centerEnd,
                     child: ConditionalBuilder(
                       condition: state is! ForgetPasswordLoadingState,
-                      builder: (BuildContext context) => DefaultButton(
-                        color: Color(0xfffab94f),
+                      builder: (BuildContext context) => defaultButton(
+                        color: const Color(0xfffab94f),
                         text: 'Send',
                         width: 150,
                         onPressed: () {
@@ -101,7 +101,7 @@ class ForgetPassSreen extends StatelessWidget {
                         },
                       ),
                       fallback: (BuildContext context) =>
-                          Center(child: CircularProgressIndicator()),
+                          const Center(child: CircularProgressIndicator()),
                     ),
                   )
                 ],

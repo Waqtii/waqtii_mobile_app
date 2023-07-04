@@ -2,9 +2,9 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waqtii/core/components/default_button.dart';
+import 'package:waqtii/core/components/default_form.dart';
 import 'package:waqtii/features/authentication/forget_password/presentation/views/forget_password_screen.dart';
 import 'package:waqtii/features/authentication/login/presentation/login_cubit/cubit.dart';
-import 'package:waqtii/core/components/default_form.dart';
 import 'package:waqtii/features/authentication/login/presentation/login_cubit/states.dart';
 import 'package:waqtii/features/authentication/register/presentation/views/register_monitor_screen.dart';
 import 'package:waqtii/features/authentication/register/presentation/views/register_user_screen.dart';
@@ -19,13 +19,15 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.height;
+
     return BlocConsumer<LoginCubit, LoginStates>(
       listener: (BuildContext context, state) {
         if (state is LoginSuccessState) {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => HomePage(),
+                builder: (context) => const HomePage(),
               ),
               (route) => false);
         }
@@ -35,7 +37,7 @@ class LoginScreen extends StatelessWidget {
           body: SingleChildScrollView(
             child: Container(
               height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage(
                         'assets/images/backgroundImage.png',
@@ -48,22 +50,26 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.2,
+                      ConditionalBuilder(
+                        condition: MediaQuery.of(context).size.height > 510,
+                        builder: (context) => SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.2),
+                        fallback: (context) => SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.05),
                       ),
-                      Text('Login',
+                      const Text('Login',
                           style: TextStyle(
                               fontSize: 40, fontWeight: FontWeight.w900)),
                       SizedBox(
-                        height: 10,
+                        height: MediaQuery.of(context).size.height * 0.01,
                       ),
-                      Text('Please Sign in to Continue',
+                      const Text('Please Sign in to Continue',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w300)),
                       SizedBox(
-                        height: 30,
+                        height: MediaQuery.of(context).size.height * 0.04,
                       ),
-                      DefaultForm(
+                      defaultForm(
                         isPassword: false,
                         controller: emailcontroller,
                         type: TextInputType.emailAddress,
@@ -77,9 +83,9 @@ class LoginScreen extends StatelessWidget {
                         }),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: MediaQuery.of(context).size.height * 0.026,
                       ),
-                      DefaultForm(
+                      defaultForm(
                         suffix: LoginCubit.get(context).suffixIcon,
                         suffixPressed: () {
                           LoginCubit.get(context).changePassVis();
@@ -91,6 +97,7 @@ class LoginScreen extends StatelessWidget {
                                 email: emailcontroller.text,
                                 password: passcontroller.text);
                           }
+                          return null;
                         },
                         controller: passcontroller,
                         type: TextInputType.visiblePassword,
@@ -104,89 +111,151 @@ class LoginScreen extends StatelessWidget {
                         }),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: MediaQuery.of(context).size.height * 0.026,
                       ),
-                      Align(
-                        alignment: AlignmentDirectional.centerEnd,
-                        child: ConditionalBuilder(
-                          condition: state is! LoginLoadingState,
-                          builder: (BuildContext context) => DefaultButton(
-                            color: Color(0xfffab94f),
-                            text: 'LOGIN',
-                            width: 150,
-                            onPressed: () {
-                              if (formkey.currentState!.validate()) {
-                                LoginCubit.get(context).userLogin(
-                                    email: emailcontroller.text,
-                                    password: passcontroller.text);
-                              }
-                            },
+                      ConditionalBuilder(
+                        condition: MediaQuery.of(context).size.height < 570,
+                        builder: (context) => Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ForgetPassSreen(),
+                                      ));
+                                },
+                                child: const FittedBox(
+                                  child: Text(
+                                    "Forget Password?",
+                                    style: TextStyle(
+                                        color: Color(0xfffab94f),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )),
+                            ConditionalBuilder(
+                              condition: state is! LoginLoadingState,
+                              builder: (BuildContext context) => defaultButton(
+                                color: const Color(0xfffab94f),
+                                text: 'LOGIN',
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                onPressed: () {
+                                  if (formkey.currentState!.validate()) {
+                                    LoginCubit.get(context).userLogin(
+                                        email: emailcontroller.text,
+                                        password: passcontroller.text);
+                                  }
+                                },
+                              ),
+                              fallback: (BuildContext context) => const Center(
+                                  child: CircularProgressIndicator()),
+                            ),
+                          ],
+                        ),
+                        fallback: (context) => Align(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: ConditionalBuilder(
+                            condition: state is! LoginLoadingState,
+                            builder: (BuildContext context) => defaultButton(
+                              color: const Color(0xfffab94f),
+                              text: 'LOGIN',
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              onPressed: () {
+                                if (formkey.currentState!.validate()) {
+                                  LoginCubit.get(context).userLogin(
+                                      email: emailcontroller.text,
+                                      password: passcontroller.text);
+                                }
+                              },
+                            ),
+                            fallback: (BuildContext context) => const Center(
+                                child: CircularProgressIndicator()),
                           ),
-                          fallback: (BuildContext context) =>
-                              Center(child: CircularProgressIndicator()),
                         ),
                       ),
+                      ConditionalBuilder(
+                          condition: MediaQuery.of(context).size.height >= 570,
+                          builder: (context) => Column(
+                                children: [
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.026,
+                                  ),
+                                  Align(
+                                      alignment: AlignmentDirectional.center,
+                                      child: TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ForgetPassSreen(),
+                                                ));
+                                          },
+                                          child: const FittedBox(
+                                            child: Text(
+                                              "Forget Password?",
+                                              style: TextStyle(
+                                                  color: Color(0xfffab94f),
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ))),
+                                ],
+                              ),
+                          fallback: null),
+                      const Spacer(),
                       SizedBox(
-                        height: 20,
-                      ),
-                      Align(
-                          alignment: AlignmentDirectional.center,
-                          child: TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ForgetPassSreen(),
-                                    ));
-                              },
-                              child: Text(
-                                "Forget Password?",
-                                style: TextStyle(
-                                    color: Color(0xfffab94f),
-                                    fontWeight: FontWeight.bold),
-                              ))),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.24,
-                      ),
-                      Column(
-                        children: [
-                          Text("Don't have an Account?"),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              RegisterUserScreen(),
-                                        ));
-                                  },
-                                  child: Text(
-                                    'SignUp as User',
-                                    style: TextStyle(
-                                        color: Color(0xfffab94f),
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              RegisterMonitorScreen(),
-                                        ));
-                                  },
-                                  child: Text(
-                                    'SignUp as Monitor',
-                                    style: TextStyle(
-                                        color: Color(0xfffab94f),
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                            ],
-                          ),
-                        ],
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ConditionalBuilder(
+                                condition:
+                                    MediaQuery.of(context).size.height >= 590,
+                                builder: (context) => const FittedBox(
+                                    child: Text("Don't have an Account?")),
+                                fallback: null),
+                            FittedBox(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RegisterUserScreen(),
+                                            ));
+                                      },
+                                      child: const Text(
+                                        'SignUp as User',
+                                        style: TextStyle(
+                                            color: Color(0xfffab94f),
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RegisterMonitorScreen(),
+                                            ));
+                                      },
+                                      child: const Text(
+                                        'SignUp as Monitor',
+                                        style: TextStyle(
+                                            color: Color(0xfffab94f),
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget DefaultForm({
+Widget defaultForm({
   required controller,
   required TextInputType type,
   required String label,
@@ -11,6 +11,11 @@ Widget DefaultForm({
   String? Function(String?)? onChange,
   Function()? suffixPressed,
   bool isPassword = false,
+  Color suffixIconColor = const Color(0xfffab94f),
+  Color prefixIconColor = const Color(0xfffab94f),
+  Color labelColor = const Color(0xfffab94f),
+  Color focusColor = const Color(0xfffab94f),
+  Color focusedBorderColor = const Color(0xfffab94f),
 }) =>
     TextFormField(
       obscureText: isPassword,
@@ -20,12 +25,12 @@ Widget DefaultForm({
       onChanged: onChange,
       keyboardType: type,
       decoration: InputDecoration(
-        suffixIconColor: Color(0xfffab94f),
-        labelStyle: TextStyle(color: Color(0xfffab94f)),
-        focusColor: Color(0xfffab94f),
-        prefixIconColor: Color(0xfffab94f),
+        suffixIconColor: suffixIconColor,
+        labelStyle: TextStyle(color: labelColor),
+        focusColor: focusColor,
+        prefixIconColor: prefixIconColor,
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Color(0xfffab94f))),
+            borderSide: BorderSide(color: focusedBorderColor)),
         suffixIcon: suffix != null
             ? IconButton(
                 icon: Icon(suffix),

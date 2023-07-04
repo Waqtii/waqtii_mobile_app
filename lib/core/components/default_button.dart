@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:waqtii/constants.dart';
 
-Widget DefaultButton({
+Widget defaultButton({
   bool border = false,
   String text = 'Log In',
   double width = double.infinity,
@@ -19,10 +19,12 @@ Widget DefaultButton({
           borderRadius: BorderRadius.circular(radius)),
       child: MaterialButton(
         onPressed: onPressed,
-        child: Text(
-          text,
-          style: TextStyle(
-            color: colorText,
+        child: FittedBox(
+          child: Text(
+            text,
+            style: TextStyle(
+              color: colorText,
+            ),
           ),
         ),
       ),

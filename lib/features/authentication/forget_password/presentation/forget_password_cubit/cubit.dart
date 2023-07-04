@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waqtii/core/utils/api_service.dart';
 import 'package:waqtii/features/authentication/forget_password/models/forget_password_model.dart';

@@ -35,7 +35,7 @@ class RegisterMonitorScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage(
                       'assets/images/backgroundImage.png',
@@ -48,31 +48,98 @@ class RegisterMonitorScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.1,
+                    ConditionalBuilder(
+                      condition: MediaQuery.of(context).size.height > 750,
+                      builder: (context) => SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05),
+                      fallback: null,
                     ),
-                    Text('Create Monitor Account',
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.w900)),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    DefaultForm(
-                      controller: namecontroller,
-                      type: TextInputType.name,
-                      label: 'Full Name',
-                      preIcon: Icons.person,
-                      validate: ((value) {
-                        if (value!.isEmpty) {
-                          return 'Name Must not be Empty';
-                        }
-                        return null;
-                      }),
+                    const FittedBox(
+                      child: Text('Create Monitor Account',
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.w900)),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: MediaQuery.of(context).size.height * 0.01,
                     ),
-                    DefaultForm(
+                    ConditionalBuilder(
+                      condition: MediaQuery.of(context).size.height > 675,
+                      builder: (context) => Column(
+                        children: [
+                          defaultForm(
+                            controller: namecontroller,
+                            type: TextInputType.name,
+                            label: 'Full Name',
+                            preIcon: Icons.person,
+                            validate: ((value) {
+                              if (value!.isEmpty) {
+                                return 'Name Must not be Empty';
+                              }
+                              return null;
+                            }),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.026,
+                          ),
+                          defaultForm(
+                            controller: usernamecontroller,
+                            type: TextInputType.name,
+                            label: 'User Name',
+                            preIcon: Icons.person,
+                            validate: ((value) {
+                              if (value!.isEmpty) {
+                                return 'userName Must not be Empty';
+                              }
+                              return null;
+                            }),
+                          ),
+                        ],
+                      ),
+                      fallback: (context) => Row(
+                        children: [
+                          Expanded(
+                            child: defaultForm(
+                              controller: namecontroller,
+                              type: TextInputType.name,
+                              label: 'Full Name',
+                              preIcon: Icons.person,
+                              validate: ((value) {
+                                if (value!.isEmpty) {
+                                  return 'Name Must not be Empty';
+                                }
+                                return null;
+                              }),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.02,
+                          ),
+                          Expanded(
+                            child: defaultForm(
+                              suffixIconColor: Colors.grey,
+                              prefixIconColor: Colors.grey,
+                              labelColor: Colors.grey,
+                              focusColor: Colors.grey,
+                              focusedBorderColor: Colors.grey,
+                              controller: usernamecontroller,
+                              type: TextInputType.name,
+                              label: 'User Name',
+                              preIcon: Icons.person,
+                              validate: ((value) {
+                                if (value!.isEmpty) {
+                                  return 'userName Must not be Empty';
+                                }
+                                return null;
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.026,
+                    ),
+                    defaultForm(
                       controller: emailcontroller,
                       type: TextInputType.emailAddress,
                       label: 'Email Address',
@@ -85,9 +152,9 @@ class RegisterMonitorScreen extends StatelessWidget {
                       }),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: MediaQuery.of(context).size.height * 0.026,
                     ),
-                    DefaultForm(
+                    defaultForm(
                       suffix: RegisterCubit.get(context).suffixIcon,
                       suffixPressed: () {
                         RegisterCubit.get(context).changePassVis();
@@ -105,24 +172,9 @@ class RegisterMonitorScreen extends StatelessWidget {
                       }),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: MediaQuery.of(context).size.height * 0.026,
                     ),
-                    DefaultForm(
-                      controller: usernamecontroller,
-                      type: TextInputType.name,
-                      label: 'User Name',
-                      preIcon: Icons.person,
-                      validate: ((value) {
-                        if (value!.isEmpty) {
-                          return 'userName Must not be Empty';
-                        }
-                        return null;
-                      }),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    DefaultForm(
+                    defaultForm(
                       controller: phonecontroller,
                       type: TextInputType.phone,
                       label: 'Phone Number',
@@ -135,9 +187,9 @@ class RegisterMonitorScreen extends StatelessWidget {
                       }),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: MediaQuery.of(context).size.height * 0.026,
                     ),
-                    DefaultForm(
+                    defaultForm(
                       controller: likedincontroller,
                       type: TextInputType.text,
                       label: 'LinkedIn Link',
@@ -150,9 +202,9 @@ class RegisterMonitorScreen extends StatelessWidget {
                       }),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: MediaQuery.of(context).size.height * 0.026,
                     ),
-                    DefaultForm(
+                    defaultForm(
                       controller: gitgubcontroller,
                       type: TextInputType.text,
                       label: 'GitHub Link',
@@ -165,7 +217,7 @@ class RegisterMonitorScreen extends StatelessWidget {
                       }),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: MediaQuery.of(context).size.height * 0.026,
                     ),
                     ConditionalBuilder(
                         condition: state is! RegisterMonitorLoadingState,
@@ -173,11 +225,12 @@ class RegisterMonitorScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 DropdownButton(
-                                  hint: Text('Choose Gender'),
+                                  hint: const FittedBox(
+                                      child: Text('Choose Gender')),
                                   items: ["Male", "Female"]
                                       .map((e) => DropdownMenuItem(
-                                            child: Text("$e"),
                                             value: e,
+                                            child: Text(e),
                                           ))
                                       .toList(),
                                   onChanged: (val) {
@@ -187,10 +240,11 @@ class RegisterMonitorScreen extends StatelessWidget {
                                   value:
                                       RegisterCubit.get(context).selectedGender,
                                 ),
-                                DefaultButton(
-                                  color: Color(0xfffab94f),
+                                defaultButton(
+                                  color: const Color(0xfffab94f),
                                   text: 'Sign Up',
-                                  width: 150,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
                                   onPressed: () {
                                     if (formkey.currentState!.validate()) {
                                       RegisterCubit.get(context)
@@ -211,11 +265,12 @@ class RegisterMonitorScreen extends StatelessWidget {
                               ],
                             ),
                         fallback: (context) =>
-                            Center(child: CircularProgressIndicator())),
+                            const Center(child: CircularProgressIndicator())),
+                    Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Have an Account?"),
+                        const Text("Have an Account?"),
                         TextButton(
                             onPressed: () {
                               Navigator.pushAndRemoveUntil(
@@ -226,7 +281,7 @@ class RegisterMonitorScreen extends StatelessWidget {
                                 (route) => false,
                               );
                             },
-                            child: Text(
+                            child: const Text(
                               'Sign In',
                               style: TextStyle(
                                   color: Color(0xfffab94f),

@@ -1,4 +1,4 @@
-import 'dart:convert';
+// ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +34,6 @@ class LoginCubit extends Cubit<LoginStates> {
       'email': email,
       'password': password,
     }).then((value) {
-      print(value?.data.runtimeType);
       loginModel = LoginModel.fromJson(value?.data);
 
       emit(LoginSuccessState(loginModel!));

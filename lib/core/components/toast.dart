@@ -1,7 +1,9 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-void Toastt({
+void toastt({
   required String message,
   required ToastStates state,
 }) =>

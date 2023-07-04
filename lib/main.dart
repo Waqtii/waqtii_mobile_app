@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waqtii/core/utils/api_service.dart';
 import 'package:waqtii/core/utils/bloc_observe.dart';
-import 'package:waqtii/features/authentication/forget_password/presentation/views/forget_password_screen.dart';
 import 'package:waqtii/features/authentication/login/presentation/login_cubit/cubit.dart';
 import 'package:waqtii/features/authentication/login/presentation/views/login_screen.dart';
 import 'package:waqtii/features/authentication/register/presentation/register_cubit/cubit.dart';
+import 'package:waqtii/features/authentication/register/presentation/views/register_monitor_screen.dart';
 import 'package:waqtii/features/authentication/register/presentation/views/register_user_screen.dart';
+import 'package:waqtii/features/authentication/splash/presentation/views/splash_screen.dart';
 
 void main() {
   ApiService.init();
@@ -25,7 +26,7 @@ class WaqtiiApp extends StatelessWidget {
         BlocProvider(create: (context) => RegisterCubit()),
       ],
       child: MaterialApp(
-        home: RegisterUserScreen(),
+        home: RegisterMonitorScreen(),
       ),
     );
   }
