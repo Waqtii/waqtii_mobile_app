@@ -6,7 +6,7 @@ class LoginModel {
   LoginModel.fromJson(Map<String, dynamic> json) {
     token = json['token'];
     message = json['message'];
-    date = json['date'] != null ? Date.fromJson(json['data']) : null;
+    date = json['date'] != null ? Date.fromJson(json['date']) : null;
   }
 }
 
