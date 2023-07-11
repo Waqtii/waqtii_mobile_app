@@ -1,12 +1,12 @@
 class LoginModel {
-  late String token;
-  late String message;
+  String? token;
+  String? message;
   Date? date;
 
   LoginModel.fromJson(Map<String, dynamic> json) {
     token = json['token'];
     message = json['message'];
-    date = json['date'] != null ? Date.fromJson(json['data']) : null;
+    date = json['date'] != null ? new Date.fromJson(json['date']) : null;
   }
 }
 

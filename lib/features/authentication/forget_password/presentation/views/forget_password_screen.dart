@@ -89,7 +89,7 @@ class ForgetPassSreen extends StatelessWidget {
                     child: ConditionalBuilder(
                       condition: state is! ForgetPasswordLoadingState,
                       builder: (BuildContext context) => defaultButton(
-                        color: const Color(0xfffab94f),
+                        // color: const Color(0xfffab94f),
                         text: 'Send',
                         width: 150,
                         onPressed: () {

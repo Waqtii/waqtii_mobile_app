@@ -6,7 +6,7 @@ Widget defaultButton({
   String text = 'Log In',
   double width = double.infinity,
   double radius = 50,
-  Color color = defaultColorLight,
+  Color color = ColorManager.secendLightColor,
   Color colorText = Colors.white,
   required Function() onPressed,
 }) =>

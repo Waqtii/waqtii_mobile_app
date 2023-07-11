@@ -11,11 +11,6 @@ Widget defaultForm({
   String? Function(String?)? onChange,
   Function()? suffixPressed,
   bool isPassword = false,
-  Color suffixIconColor = const Color(0xfffab94f),
-  Color prefixIconColor = const Color(0xfffab94f),
-  Color labelColor = const Color(0xfffab94f),
-  Color focusColor = const Color(0xfffab94f),
-  Color focusedBorderColor = const Color(0xfffab94f),
 }) =>
     TextFormField(
       obscureText: isPassword,
@@ -25,12 +20,6 @@ Widget defaultForm({
       onChanged: onChange,
       keyboardType: type,
       decoration: InputDecoration(
-        suffixIconColor: suffixIconColor,
-        labelStyle: TextStyle(color: labelColor),
-        focusColor: focusColor,
-        prefixIconColor: prefixIconColor,
-        focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: focusedBorderColor)),
         suffixIcon: suffix != null
             ? IconButton(
                 icon: Icon(suffix),

@@ -12,7 +12,9 @@ class ApiService {
 
   static Future<Response> getData({
     required String url,
+    String? token,
   }) async {
+    _dio.options.headers['Authorization'] = 'token $token';
     return await _dio.get(
       url,
     );
@@ -21,10 +23,20 @@ class ApiService {
   static Future<Response?> postData({
     required String url,
     required Map<String, dynamic> data,
+    String? token,
   }) async {
+    _dio.options.headers['Authorization'] = 'token $token';
     return _dio.post(
       url,
       data: data,
     );
+  }
+
+  static Future<Response?> deleteData({
+    required String url,
+    String? token,
+  }) async {
+    _dio.options.headers['Authorization'] = 'token $token';
+    return _dio.delete(url);
   }
 }

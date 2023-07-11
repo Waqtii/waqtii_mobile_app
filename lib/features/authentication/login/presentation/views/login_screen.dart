@@ -8,7 +8,7 @@ import 'package:waqtii/features/authentication/login/presentation/login_cubit/cu
 import 'package:waqtii/features/authentication/login/presentation/login_cubit/states.dart';
 import 'package:waqtii/features/authentication/register/presentation/views/register_monitor_screen.dart';
 import 'package:waqtii/features/authentication/register/presentation/views/register_user_screen.dart';
-import 'package:waqtii/features/to_do/presentation/views/home.dart';
+import 'package:waqtii/features/home_features/to_do/presentation/views/tasks.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class LoginScreen extends StatelessWidget {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomePage(),
+                builder: (context) => TODOHome(),
               ),
               (route) => false);
         }
@@ -57,9 +57,11 @@ class LoginScreen extends StatelessWidget {
                         fallback: (context) => SizedBox(
                             height: MediaQuery.of(context).size.height * 0.05),
                       ),
-                      const Text('Login',
-                          style: TextStyle(
-                              fontSize: 40, fontWeight: FontWeight.w900)),
+                      const FittedBox(
+                        child: Text('Login',
+                            style: TextStyle(
+                                fontSize: 40, fontWeight: FontWeight.w900)),
+                      ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.01,
                       ),
@@ -137,7 +139,7 @@ class LoginScreen extends StatelessWidget {
                             ConditionalBuilder(
                               condition: state is! LoginLoadingState,
                               builder: (BuildContext context) => defaultButton(
-                                color: const Color(0xfffab94f),
+                                // color: const Color(0xfffab94f),
                                 text: 'LOGIN',
                                 width: MediaQuery.of(context).size.width * 0.4,
                                 onPressed: () {
@@ -158,7 +160,7 @@ class LoginScreen extends StatelessWidget {
                           child: ConditionalBuilder(
                             condition: state is! LoginLoadingState,
                             builder: (BuildContext context) => defaultButton(
-                              color: const Color(0xfffab94f),
+                              // color: const Color(0xfffab94f),
                               text: 'LOGIN',
                               width: MediaQuery.of(context).size.width * 0.4,
                               onPressed: () {

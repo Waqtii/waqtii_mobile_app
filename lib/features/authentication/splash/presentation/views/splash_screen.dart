@@ -76,7 +76,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   defaultButton(
-                      color: const Color(0xfffab94f),
+                      // color: const Color(0xfffab94f),
                       text: 'SignUp as User',
                       onPressed: () {
                         if (isLast) {
@@ -97,7 +97,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     height: 20,
                   ),
                   defaultButton(
-                      color: const Color.fromARGB(255, 250, 155, 2),
+                      // color: const Color.fromARGB(255, 250, 155, 2),
                       text: 'SignUp as Monitor',
                       onPressed: () {
                         if (isLast) {
@@ -118,7 +118,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               ),
               fallback: (context) => defaultButton(
                   width: MediaQuery.of(context).size.width * 0.75,
-                  color: const Color(0xfffab94f),
+                  // color: const Color(0xfffab94f),
                   text: 'Next',
                   onPressed: () {
                     onBoardController.nextPage(

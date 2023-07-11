@@ -1,8 +1,11 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waqtii/constants.dart';
 import 'package:waqtii/core/components/default_button.dart';
 import 'package:waqtii/core/components/default_form.dart';
+import 'package:waqtii/core/components/dropdown.dart';
 import 'package:waqtii/features/authentication/login/presentation/views/login_screen.dart';
 import 'package:waqtii/features/authentication/register/presentation/register_cubit/cubit.dart';
 import 'package:waqtii/features/authentication/register/presentation/register_cubit/states.dart';
@@ -145,23 +148,22 @@ class RegisterUserScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        DropdownButton(
-                          hint: const FittedBox(child: Text('Choose Gender')),
-                          items: ["male", "female"]
-                              .map((e) => DropdownMenuItem(
-                                    value: e,
-                                    child: Text(e),
-                                  ))
-                              .toList(),
-                          onChanged: (val) {
-                            RegisterCubit.get(context).changeGender(val);
-                          },
-                          value: RegisterCubit.get(context).selectedGender,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          child: defaultDropDown(
+                            context: context,
+                            hint: 'Choose Gender',
+                            items: ['male', 'female'],
+                            onChanged: (value) {
+                              RegisterCubit.get(context).changeGender(value);
+                            },
+                            validationText: 'please select gender.',
+                          ),
                         ),
                         ConditionalBuilder(
                           condition: state is! RegisterUserLoadingState,
                           builder: (BuildContext context) => defaultButton(
-                            color: const Color(0xfffab94f),
+                            // color: const Color(0xfffab94f),
                             text: 'Sign Up',
                             width: MediaQuery.of(context).size.width * 0.4,
                             onPressed: () {

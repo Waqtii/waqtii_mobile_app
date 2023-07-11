@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waqtii/core/components/default_button.dart';
 import 'package:waqtii/core/components/default_form.dart';
+import 'package:waqtii/core/components/dropdown.dart';
 import 'package:waqtii/features/authentication/login/presentation/views/login_screen.dart';
 import 'package:waqtii/features/authentication/register/presentation/register_cubit/cubit.dart';
 import 'package:waqtii/features/authentication/register/presentation/register_cubit/states.dart';
@@ -23,13 +24,15 @@ class RegisterMonitorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<RegisterCubit, RegisterStates>(
       listener: (context, state) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => LoginScreen(),
-          ),
-          (route) => false,
-        );
+        if (state is RegisterMonitorSuccessState) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LoginScreen(),
+            ),
+            (route) => false,
+          );
+        }
       },
       builder: (context, state) => Scaffold(
         body: SingleChildScrollView(
@@ -116,11 +119,6 @@ class RegisterMonitorScreen extends StatelessWidget {
                           ),
                           Expanded(
                             child: defaultForm(
-                              suffixIconColor: Colors.grey,
-                              prefixIconColor: Colors.grey,
-                              labelColor: Colors.grey,
-                              focusColor: Colors.grey,
-                              focusedBorderColor: Colors.grey,
                               controller: usernamecontroller,
                               type: TextInputType.name,
                               label: 'User Name',
@@ -224,24 +222,22 @@ class RegisterMonitorScreen extends StatelessWidget {
                         builder: (context) => Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                DropdownButton(
-                                  hint: const FittedBox(
-                                      child: Text('Choose Gender')),
-                                  items: ["Male", "Female"]
-                                      .map((e) => DropdownMenuItem(
-                                            value: e,
-                                            child: Text(e),
-                                          ))
-                                      .toList(),
-                                  onChanged: (val) {
-                                    RegisterCubit.get(context)
-                                        .changeGender(val);
-                                  },
-                                  value:
-                                      RegisterCubit.get(context).selectedGender,
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.45,
+                                  child: defaultDropDown(
+                                    context: context,
+                                    hint: 'Choose Gender',
+                                    items: ['male', 'female'],
+                                    onChanged: (value) {
+                                      RegisterCubit.get(context)
+                                          .changeGender(value);
+                                    },
+                                    validationText: 'please select gender.',
+                                  ),
                                 ),
                                 defaultButton(
-                                  color: const Color(0xfffab94f),
+                                  // color: const Color(0xfffab94f),
                                   text: 'Sign Up',
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
