@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:waqtii/features/home_features/to_do/domain/models/tasks_model.dart';
 import 'package:waqtii/features/home_features/to_do/presentation/to_do_cubit/cubit.dart';
+import 'package:waqtii/features/home_features/to_do/presentation/views/task_details.dart';
 
 Widget tasksBuilder({
   required List<TasksModel> tasks,
@@ -85,35 +86,45 @@ Widget buildTaskItem(TasksModel model, context) => Dismissible(
               ),
             ),
             Expanded(
-              child: Text(
-                '${model.title}',
-                style: TextStyle(
-                    decoration: model.status == 'DONE'
-                        ? TextDecoration.lineThrough
-                        : null,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    color: model.status == 'DONE' ? Colors.grey[600] : null),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TaskDetails(tasksModel: model),
+                      ));
+                },
+                child: Text(
+                  '${model.title}',
+                  style: TextStyle(
+                      decoration: model.status == 'DONE'
+                          ? TextDecoration.lineThrough
+                          : null,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: model.status == 'DONE' ? Colors.grey[600] : null),
+                ),
               ),
             ),
             Container(
+              height: 35,
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                      color: model.status == 'TODO'
-                          ? Colors.grey
-                          : model.status == 'IN_PROGRESS'
-                              ? Colors.blue
-                              : Colors.green.shade400,
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: Offset(0, 2))
+                    color: model.status == 'TODO'
+                        ? Colors.grey
+                        : model.status == 'IN_PROGRESS'
+                            ? Colors.blue
+                            : Colors.green.shade400,
+                    spreadRadius: 1,
+                    blurRadius: 1,
+                  )
                 ],
-                // color: model['status'] == 'new'
-                //     ? Colors.grey.shade100
-                //     : model['status'] == 'inprogress'
-                //         ? Colors.blue.shade100
-                //         : Colors.green.shade100,
+                color: model.status == 'TODO'
+                    ? Colors.grey.shade100
+                    : model.status == 'IN_PROGRESS'
+                        ? Colors.blue.shade100
+                        : Colors.green.shade100,
                 borderRadius: BorderRadius.circular(25),
               ),
               child: SizedBox(
@@ -131,7 +142,9 @@ Widget buildTaskItem(TasksModel model, context) => Dismissible(
                             child: Center(
                               child: Text(
                                 e,
-                                style: TextStyle(fontWeight: FontWeight.w700),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
                           ),
