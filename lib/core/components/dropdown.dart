@@ -11,7 +11,7 @@ Widget defaultDropDown({
     DropdownButtonFormField2(
       isExpanded: true,
       decoration: InputDecoration(
-          prefixIcon: Icon(Icons.priority_high_rounded),
+          prefixIcon: const Icon(Icons.priority_high_rounded),
           fillColor: Colors.white,
           filled: true,
           contentPadding: const EdgeInsets.symmetric(vertical: 16),

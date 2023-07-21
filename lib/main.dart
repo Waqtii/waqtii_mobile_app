@@ -7,6 +7,7 @@ import 'package:waqtii/features/authentication/login/presentation/login_cubit/cu
 import 'package:waqtii/features/authentication/login/presentation/views/login_screen.dart';
 import 'package:waqtii/features/authentication/register/presentation/register_cubit/cubit.dart';
 import 'package:waqtii/features/authentication/register/presentation/views/register_user_screen.dart';
+import 'package:waqtii/features/authentication/splash/presentation/views/splash_screen.dart';
 import 'package:waqtii/features/home/presentation/home_cubit/cubit.dart';
 import 'package:waqtii/features/home/presentation/views/home_screen.dart';
 import 'package:waqtii/features/home_features/to_do/presentation/to_do_cubit/cubit.dart';

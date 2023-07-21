@@ -36,7 +36,7 @@ class TODOHome extends StatelessWidget {
       builder: (context, state) {
         TODOCubit cubit = TODOCubit.get(context);
         return ConditionalBuilder(
-          condition: state is! GetTaskLoadingState,
+          condition: state is! GetTasksLoadingState,
           builder: (context) => Scaffold(
               key: scaffoldKey,
               body: tasksBuilder(

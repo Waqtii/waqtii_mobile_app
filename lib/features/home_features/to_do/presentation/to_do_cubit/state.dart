@@ -1,3 +1,5 @@
+import 'package:waqtii/features/home_features/to_do/domain/models/task_model_by_id/task_model_by_id.dart';
+
 abstract class TODOStates {}
 
 class TODOInitialState extends TODOStates {}
@@ -14,13 +16,24 @@ class CreateTaskSuccessState extends TODOStates {}
 
 class CreateTaskErrorState extends TODOStates {}
 
-// Get Task
+// Get Tasks
 
-class GetTaskLoadingState extends TODOStates {}
+class GetTasksLoadingState extends TODOStates {}
 
-class GetTaskSuccessState extends TODOStates {}
+class GetTasksSuccessState extends TODOStates {}
 
-class GetTaskErrorState extends TODOStates {}
+class GetTasksErrorState extends TODOStates {}
+
+// Get Task By Id
+
+class GetTaskByIdLoadingState extends TODOStates {}
+
+class GetTaskByIdSuccessState extends TODOStates {
+  TaskModelById taskModelById;
+  GetTaskByIdSuccessState(this.taskModelById);
+}
+
+class GetTaskByIdErrorState extends TODOStates {}
 
 // Delete Task
 

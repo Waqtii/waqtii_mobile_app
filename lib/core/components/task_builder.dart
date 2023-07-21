@@ -1,5 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:glassmorphism/glassmorphism.dart';
+import 'package:waqtii/features/home_features/to_do/domain/models/task_model_by_id/task_model_by_id.dart';
 import 'package:waqtii/features/home_features/to_do/domain/models/tasks_model.dart';
 import 'package:waqtii/features/home_features/to_do/presentation/to_do_cubit/cubit.dart';
 import 'package:waqtii/features/home_features/to_do/presentation/views/task_details.dart';
@@ -55,24 +57,18 @@ Widget buildTaskItem(TasksModel model, context) => Dismissible(
           children: [
             IconButton(
               onPressed: () {
-                // if (model['status'] == 'IN_PROGRESS') {
-                //   TODOCubit.get(context).updateData(
-                //     status: 'DONE',
-                //     id: model['id'],
-                //   );
-                // }
-                // if (model['status'] == 'TODO') {
-                //   TODOCubit.get(context).updateData(
-                //     status: 'DONE',
-                //     id: model['id'],
-                //   );
-                // }
-                // if (model['status'] == 'DONE') {
-                //   TODOCubit.get(context).updateData(
-                //     status: 'TODO',
-                //     id: model['id'],
-                //   );
-                // }
+                if (model.status == 'IN_PROGRESS') {
+                  TODOCubit.get(context)
+                      .updateTask(id: model.id!, status: 'DONE');
+                }
+                if (model.status == 'TODO') {
+                  TODOCubit.get(context)
+                      .updateTask(id: model.id!, status: 'DONE');
+                }
+                if (model.status == 'DONE') {
+                  TODOCubit.get(context)
+                      .updateTask(id: model.id!, status: 'TODO');
+                }
               },
               icon: Icon(
                 model.status == 'DONE'
@@ -87,12 +83,22 @@ Widget buildTaskItem(TasksModel model, context) => Dismissible(
             ),
             Expanded(
               child: InkWell(
-                onTap: () {
+                onTap: () async {
+                  await TODOCubit.get(context).getTaskById(id: model.id!);
+
+                  TaskModelById taskModelById =
+                      TODOCubit.get(context).taskModelById!;
+
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => TaskDetails(tasksModel: model),
-                      ));
+                          builder: (context) => TaskDetails(
+                                taskModelById: taskModelById,
+                              )
+                          // TestFactory.fromjson(
+                          //   model,
+                          // ),
+                          ));
                 },
                 child: Text(
                   '${model.title}',
@@ -133,17 +139,20 @@ Widget buildTaskItem(TasksModel model, context) => Dismissible(
                   child: DropdownButton<String>(
                     value: model.status,
                     onChanged: (newValue) {
-                      TODOCubit.get(context).changeStatus(newValue, model);
+                      TODOCubit.get(context)
+                          .changeStatus(newValue, model, context);
                     },
                     items: ["TODO", "IN_PROGRESS", "DONE"]
                         .map(
                           (e) => DropdownMenuItem(
                             value: e,
                             child: Center(
-                              child: Text(
-                                e,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w700,
+                              child: FittedBox(
+                                child: Text(
+                                  e,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                             ),
@@ -161,6 +170,72 @@ Widget buildTaskItem(TasksModel model, context) => Dismissible(
                 ),
               ),
             ),
+            // GlassmorphicContainer(
+            //   width: MediaQuery.sizeOf(context).width * 0.25,
+            //   height: 35,
+            //   borderRadius: 25,
+            //   linearGradient: LinearGradient(
+            //       begin: Alignment.topLeft,
+            //       end: Alignment.bottomRight,
+            //       stops: const [
+            //         0.3,
+            //         1,
+            //       ],
+            //       colors: [
+            //         if (model.status == 'TODO') Colors.grey.shade500,
+            //         if (model.status == 'IN_PROGRESS') Colors.blue.shade500,
+            //         if (model.status == 'DONE') Colors.green.shade500,
+            //         if (model.status == 'TODO') Colors.grey.shade100,
+            //         if (model.status == 'IN_PROGRESS') Colors.blue.shade100,
+            //         if (model.status == 'DONE') Colors.green.shade100,
+            //       ]),
+            //   border: 1.5,
+            //   blur: 0,
+            //   borderGradient: LinearGradient(
+            //       begin: Alignment.bottomRight,
+            //       end: Alignment.topLeft,
+            //       colors: [
+            //         if (model.status == 'TODO') Colors.grey,
+            //         if (model.status == 'IN_PROGRESS') Colors.blue,
+            //         if (model.status == 'DONE') Colors.green,
+            //         if (model.status == 'TODO') Colors.grey.shade600,
+            //         if (model.status == 'IN_PROGRESS') Colors.blue.shade600,
+            //         if (model.status == 'DONE') Colors.green.shade600,
+            //       ]),
+            //   child: SizedBox(
+            //     width: MediaQuery.sizeOf(context).width * 0.25,
+            //     child: DropdownButtonHideUnderline(
+            //       child: DropdownButton<String>(
+            //         value: model.status,
+            //         onChanged: (newValue) {
+            //           TODOCubit.get(context).changeStatus(newValue, model);
+            //         },
+            //         items: ["TODO", "IN_PROGRESS", "DONE"]
+            //             .map(
+            //               (e) => DropdownMenuItem(
+            //                 value: e,
+            //                 child: Center(
+            //                   child: Text(
+            //                     e,
+            //                     style: const TextStyle(
+            //                       fontWeight: FontWeight.w700,
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ),
+            //             )
+            //             .toList(),
+            //         icon: const SizedBox.shrink(),
+            //         // Remove the arrow icon
+            //         style: const TextStyle(
+            //           fontSize: 16,
+            //           color: Colors.black,
+            //         ),
+            //         isExpanded: true,
+            //       ),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),

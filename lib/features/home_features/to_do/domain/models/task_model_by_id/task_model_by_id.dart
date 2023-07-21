@@ -1,12 +1,12 @@
-// class TaskModelById {
-//   TasksModel? dataItem;
+class TaskModelById {
+  DataItem? dataItem;
 
-//   TaskModelById.fromJson(Map<String, dynamic> json) {
-//     dataItem = json['data'] != null ? TasksModel.fromJson(json['data']) : null;
-//   }
-// }
+  TaskModelById.fromJson(Map<String, dynamic> json) {
+    dataItem = json['data'] != null ? DataItem.fromJson(json['data']) : null;
+  }
+}
 
-class TasksModel {
+class DataItem {
   int? id;
   String? title;
   String? status;
@@ -18,7 +18,7 @@ class TasksModel {
   String? createdAt;
   int? user;
 
-  TasksModel.fromJson(Map<String, dynamic> json) {
+  DataItem.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     status = json['status'];

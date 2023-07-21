@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waqtii/core/utils/api_service.dart';
+import 'package:waqtii/features/home_features/to_do/domain/models/task_model_by_id/task_model_by_id.dart';
 import 'package:waqtii/features/home_features/to_do/domain/models/tasks_model.dart';
 import 'package:waqtii/features/home_features/to_do/presentation/to_do_cubit/state.dart';
 
@@ -29,15 +30,24 @@ class TODOCubit extends Cubit<TODOStates> {
     emit(ChangePriorityState());
   }
 
-  void changeStatus(value, model) {
+  void changeStatus(value, model, context) {
     if (value == "TODO") {
-      // add function to update status
+      TODOCubit.get(context).updateTask(id: model.id!, status: 'TODO');
     }
     if (value == "IN_PROGRESS") {
-      // add function to update status
+      TODOCubit.get(context).updateTask(id: model.id!, status: 'IN_PROGRESS');
     }
     if (value == "DONE") {
-      // add function to update status
+      TODOCubit.get(context).updateTask(id: model.id!, status: 'DONE');
+    }
+    if (value == "low") {
+      TODOCubit.get(context).updateTask(id: model.id!, priority: 'low');
+    }
+    if (value == "mid") {
+      TODOCubit.get(context).updateTask(id: model.id!, priority: 'mid');
+    }
+    if (value == "high") {
+      TODOCubit.get(context).updateTask(id: model.id!, priority: 'high');
     }
 
     emit(UpdateTaskSuccessState());
@@ -61,7 +71,7 @@ class TODOCubit extends Cubit<TODOStates> {
   List<TasksModel> tasksList = [];
 
   getTasks() {
-    emit(GetTaskLoadingState());
+    emit(GetTasksLoadingState());
     ApiService.getData(
       token: '8a5c235aa21b477c3fe119d0dc12e05fdb615d0f',
       url: 'tasks/',
@@ -73,10 +83,57 @@ class TODOCubit extends Cubit<TODOStates> {
         tasksList.add(task);
       }
 
-      emit(GetTaskSuccessState());
+      emit(GetTasksSuccessState());
     }).catchError((e) {
       print(e.toString());
-      emit(GetTaskErrorState());
+      emit(GetTasksErrorState());
+    });
+  }
+
+  TaskModelById? taskModelById;
+  // DataItem? dataItem;
+  Future getTaskById({required int id}) {
+    emit(GetTaskByIdLoadingState());
+    return ApiService.getData(
+      token: '8a5c235aa21b477c3fe119d0dc12e05fdb615d0f',
+      url: 'tasks/$id/',
+    ).then((value) {
+      taskModelById = TaskModelById.fromJson(value.data);
+      // print(taskModelById?.dataItem);
+      // dataItem = DataItem.fromJson(taskModelById!.dataItem);
+
+      emit(GetTaskByIdSuccessState(taskModelById!));
+    }).catchError((e) {
+      print("Error from getTaskById ${e.toString()}");
+      emit(GetTaskByIdErrorState());
+    });
+  }
+
+  updateTask({
+    String? title,
+    String? status,
+    String? priority,
+    String? description,
+    String? notes,
+    required int id,
+  }) {
+    emit(UpdateTaskLoadingState());
+    ApiService.postData(
+        token: '8a5c235aa21b477c3fe119d0dc12e05fdb615d0f',
+        url: 'tasks/update/$id/',
+        data: {
+          'title': title,
+          'status': status,
+          'priority': priority,
+          'description': description,
+          'notes': notes,
+        }).then((value) {
+      getTasks();
+      getTaskById(id: id);
+      emit(UpdateTaskSuccessState());
+    }).catchError((e) {
+      print(e.toString());
+      emit(UpdateTaskErrorState());
     });
   }
 
